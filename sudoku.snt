@@ -1,0 +1,26 @@
+function main() {
+  array9<array9<int5>> board;
+  array9<array9<int5>> squares;
+
+  invariant board.all?(*valid);
+  invariant board.transpose.all?(*valid);
+  invariant squares.all?(*valid);
+
+  squares.each(function^(sqCells, sq) {
+    sqCells.each(function^(cell, i) {
+      x = ((sq % 3) * 3) + (i % 3);
+      y = ((sq / 3) * 3) + (i / 3);
+      invariant cell == board[x][y];
+    });
+  });
+
+  expose board;
+};
+
+function valid(cells) {
+  return cells.all?(function(n){ return n >= 1 && n <= 9; }) &&
+         cells.uniq?() &&
+         cells.sum() == 45;
+};
+
+main();
