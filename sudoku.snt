@@ -2,9 +2,9 @@ function main() {
   array9<array9<int5>> board;
   array9<array9<int5>> squares;
 
-  invariant board.all?(*valid);
-  invariant board.transpose.all?(*valid);
-  invariant squares.all?(*valid);
+  invariant board.all?(*valid?);
+  invariant board.transpose.all?(*valid?);
+  invariant squares.all?(*valid?);
 
   squares.each(function^(sqCells, sq) {
     sqCells.each(function^(cell, i) {
@@ -17,10 +17,8 @@ function main() {
   expose board;
 };
 
-function valid(cells) {
-  return cells.all?(function(n){ return n >= 1 && n <= 9; }) &&
-         cells.uniq?() &&
-         cells.sum() == 45;
+function valid?(cells) {
+  return cells.uniq?() && cells.all?(function(n){ return n >= 1 && n <= 9; });
 };
 
 main();
